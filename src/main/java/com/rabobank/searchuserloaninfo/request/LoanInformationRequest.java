@@ -69,11 +69,6 @@ public class LoanInformationRequest {
 	public void setLoanAmount(double loanAmount) {
 		this.loanAmount = loanAmount;
 	}
-	
-	public LoanInformationRequest() {
-		
-	}
-
 	/**
 	 * @return the loanTerm
 	 */

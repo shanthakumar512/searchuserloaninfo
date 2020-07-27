@@ -13,7 +13,7 @@ public class SearchLoanAndUserInfoServiceImpl implements SearchLoanAndUserInfoSe
 	 * 
 	 */
 	public SearchLoanAndUserInfoServiceImpl() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	/* (non-Javadoc)
@@ -21,7 +21,6 @@ public class SearchLoanAndUserInfoServiceImpl implements SearchLoanAndUserInfoSe
 	 */
 	@Override
 	public void searchLoanInformationWithLoanNUmber(String loanInfo) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -30,7 +29,6 @@ public class SearchLoanAndUserInfoServiceImpl implements SearchLoanAndUserInfoSe
 	 */
 	@Override
 	public void searchUserEmailByFirstName(String userFirstName) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -39,7 +37,6 @@ public class SearchLoanAndUserInfoServiceImpl implements SearchLoanAndUserInfoSe
 	 */
 	@Override
 	public void searchuserEmailByLastName(String userLastName) {
-		// TODO Auto-generated method stub
 
 	}
 

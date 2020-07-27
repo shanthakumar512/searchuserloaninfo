@@ -3,20 +3,19 @@
  */
 package com.rabobank.searchuserloaninfo.controller;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 import com.rabobank.searchuserloaninfo.request.LoanInformationRequest;
 import com.rabobank.searchuserloaninfo.request.LoanUserRequest;
@@ -30,6 +29,8 @@ import com.rabobank.searchuserloaninfo.request.SearchLoanRequest;
 @RequestMapping("/searchinfo")
 public class SearchLoanandUserInformationController {
 	
+private static final Logger logger = LoggerFactory.getLogger(SearchLoanandUserInformationController.class);
+	
 @Autowired
 LoanInformationServiceProxy loanInformationServiceProxy;
 
@@ -37,67 +38,41 @@ LoanInformationServiceProxy loanInformationServiceProxy;
 UserInfromationServiceProxy userInfromationServiceProxy;
 
 	
-@PutMapping("/loanInformation")
+@PostMapping("/loanInformation")
 public ResponseEntity<?> searchLoanInfoByLoanNum(@Valid @RequestBody SearchLoanRequest searchLoanRequest) {
-	
+	logger.info("Entered searchLoanInfoByLoanNum() method");
 	if(null != searchLoanRequest.getLoanNumber() && !searchLoanRequest.getLoanNumber().isEmpty()) {
-		  Map<String, String> uriVariables = new HashMap<>();
-		    uriVariables.put("loanNumber", searchLoanRequest.getLoanNumber());
-		
-		/*LoanInformationRequest response = new RestTemplate().getForObject(
-		        "http://localhost:8085/loanInfo/getLoanInfo/{loanNumber}", LoanInformationRequest.class,
-		        uriVariables);	*/	
-		        
+		logger.info("Entered search with loan Number block Loan NUmber ::{}",searchLoanRequest.getLoanNumber());
 		LoanInformationRequest response= loanInformationServiceProxy.retrieveLoanInfo(searchLoanRequest.getLoanNumber());
-				
-		return new ResponseEntity<LoanInformationRequest> (response, HttpStatus.OK);
+		List<LoanInformationRequest> list= new ArrayList<>();
+		list.add(response);
+		logger.info("Loan details returned with Loan user Email ::{}",response.getLoanUserEmail());
+		return new ResponseEntity<> (list, HttpStatus.OK);
 	}
 	
 	if(null != searchLoanRequest.getUserFirstname() && !searchLoanRequest.getUserFirstname().isEmpty()) {
-		/*  Map<String, String> uriVariables = new HashMap<>();
-		    uriVariables.put("userFirstName", searchLoanRequest.getUserFirstname());
-		
-		LoanUserRequest responseEntity = new RestTemplate().getForObject(
-		        "http://localhost:8082/loanUser/getLoanUserByFirstName/{userFirstName}", LoanUserRequest.class,
-		        uriVariables);*/
-		
+		logger.info("Entered search with loan user First Name block  ::{}",searchLoanRequest.getUserFirstname());
 		LoanUserRequest response = userInfromationServiceProxy.retrieveUserInfoByFirstName(searchLoanRequest.getUserFirstname());
 		
 		if(response.getUserEmail()!=null) {
-			/*LoanInformationRequest loanresponseEntity = new RestTemplate().getForObject(
-			        "http://localhost:8085/loanInfo/getLoanInfoByEmail/{loanUserEmail}", LoanInformationRequest.class,
-			        uriVariables);*/
+			logger.info("Loan User returned with  user Email ::{}",response.getUserEmail());
 			List<LoanInformationRequest> loanresponse= loanInformationServiceProxy.retrieveLoanInfoByEmail(response.getUserEmail());
-			
-			/*@SuppressWarnings("unchecked")
-			List<LoanInformationRequest> loanInfoResponse = (List<LoanInformationRequest>) loanresponseEntity;	
-			*/
-			return new ResponseEntity<List<LoanInformationRequest>> (loanresponse, HttpStatus.OK);
+			logger.info("Size of Loan details returned with Loan user Email ::{}",loanresponse.size());
+			return new ResponseEntity<> (loanresponse, HttpStatus.OK);
 		}
-		return new ResponseEntity<LoanUserRequest> (response, HttpStatus.OK);
 	}
 	
 	if(null != searchLoanRequest.getUserLastname() && !searchLoanRequest.getUserLastname().isEmpty()) {
-		  /*Map<String, String> uriVariables = new HashMap<>();
-		    uriVariables.put("userlastName", searchLoanRequest.getUserLastname());
-		
-		ResponseEntity<LoanUserRequest> responseEntity = new RestTemplate().getForEntity(
-		        "http://localhost:8082/loanUser/getLoanUserByFirstName/{userlastName}", LoanUserRequest.class,
-		        uriVariables);*/
-		LoanUserRequest response = userInfromationServiceProxy.retrieveUserInfoByLastName(searchLoanRequest.getUserLastname());
+		logger.info("Entered search with loan user Last Name block  ::{}",searchLoanRequest.getUserLastname());
+		LoanUserRequest response = userInfromationServiceProxy.retrieveUserInfoByLastName(searchLoanRequest.getUserLastname());		
 		
 		if(response.getUserEmail()!=null) {
-			/*ResponseEntity<LoanInformationRequest> loanresponseEntity = new RestTemplate().getForEntity(
-			        "http://localhost:8085/loanInfo//getLoanInfoByEmail/{loanUserEmail}", LoanInformationRequest.class,
-			        uriVariables);*/
+			logger.info("Loan User returned with  user Email ::{}",response.getUserEmail());
 			List<LoanInformationRequest> loanInfoResponse= loanInformationServiceProxy.retrieveLoanInfoByEmail(response.getUserEmail());
-//			@SuppressWarnings("unchecked")
-//			List<LoanInformationRequest> loanInfoResponse = (List<LoanInformationRequest>) loanresponseEntity;	
-			
-			return new ResponseEntity<List<LoanInformationRequest>> (loanInfoResponse, HttpStatus.OK);
+			logger.info("Size of Loan details returned with Loan user Email ::{}",loanInfoResponse.size());
+			return new ResponseEntity<> (loanInfoResponse, HttpStatus.OK);
 		}
 		
-		return new ResponseEntity<LoanUserRequest> (response, HttpStatus.OK);
 	}
 	
 	return  ResponseEntity.badRequest().body("Search failed. Fine tune Search");	
