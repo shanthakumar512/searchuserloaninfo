@@ -16,6 +16,12 @@ public class SearchLoanRequest {
 		return userFirstname;
 	}
 	/**
+	 * @param userLastname the userLastname to set
+	 */
+	public void setUserLastname(String userLastname) {
+		this.userLastname = userLastname;
+	}
+	/**
 	 * @param userFirstname the userFirstname to set
 	 */
 	public void setUserFirstname(String userFirstname) {

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.rabobank.searchuserloaninfo.request.LoanInformationRequest;
 
 @FeignClient(name="loan-information-service")
-public interface LoanInformationServiceProxy {
+public interface LoanInformationServiceClient {
 	
 	@GetMapping("loanInfo/getLoanInfo/{loanNumber}")
 	public LoanInformationRequest retrieveLoanInfo(@PathVariable("loanNumber") String loanNumber);
@@ -17,3 +17,4 @@ public interface LoanInformationServiceProxy {
 	@GetMapping("loanInfo/getLoanInfoByEmail/{loanUserEmail}")
 	public List<LoanInformationRequest> retrieveLoanInfoByEmail(@PathVariable("loanUserEmail") String loanUserEmail);
 }
+ 

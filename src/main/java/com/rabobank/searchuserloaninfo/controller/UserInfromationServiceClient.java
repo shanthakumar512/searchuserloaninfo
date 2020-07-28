@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.rabobank.searchuserloaninfo.request.LoanUserRequest;
 
 @FeignClient(name="user-information-service")
-public interface UserInfromationServiceProxy {
+public interface UserInfromationServiceClient {
 	
 	@GetMapping("loanUser/getLoanUserByFirstName/{userFirstName}")
 	public LoanUserRequest retrieveUserInfoByFirstName(@PathVariable("userFirstName") String userFirstName);
