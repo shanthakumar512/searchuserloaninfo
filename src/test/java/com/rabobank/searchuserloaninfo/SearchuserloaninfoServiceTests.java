@@ -15,13 +15,13 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 import static org.mockito.Mockito.*;
 
-import com.rabobank.searchuserloaninfo.request.LoanInformationRequest;
+import com.rabobank.searchuserloaninfo.request.LoanInformation;
 import com.rabobank.searchuserloaninfo.controller.LoanInformationServiceClient;
 import com.rabobank.searchuserloaninfo.controller.UserInfromationServiceClient;
 import com.rabobank.searchuserloaninfo.exceptions.LoanInformationNotFoundException;
 import com.rabobank.searchuserloaninfo.services.SearchLoanAndUserInfoServiceImpl;
 import com.rabobank.searchuserloaninfo.request.Address;
-import com.rabobank.searchuserloaninfo.request.LoanUserRequest;
+import com.rabobank.searchuserloaninfo.request.LoanUser;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {SearchuserloaninfoApplication.class},
@@ -47,9 +47,9 @@ public class SearchuserloaninfoServiceTests {
 	@Test
 	public void searchByLoanNumTest() {
 		
-		List<LoanInformationRequest> list= new ArrayList<>();
+		List<LoanInformation> list= new ArrayList<>();
 		
-		LoanInformationRequest loanInformation = new LoanInformationRequest();
+		LoanInformation loanInformation = new LoanInformation();
 		loanInformation.setLoanUserEmail("abc@gmail.c");
 		loanInformation.setLoanAmount(1234568);
 		loanInformation.setLoanNumber("ABC12345");
@@ -58,7 +58,7 @@ public class SearchuserloaninfoServiceTests {
 		loanInformation.setLoanMgtFees(7895);
 		loanInformation.setOriginationAccount("ACB123476");
 		
-		LoanInformationRequest loanInformation1 = new LoanInformationRequest();
+		LoanInformation loanInformation1 = new LoanInformation();
 		loanInformation1.setLoanUserEmail("abc@gmail.c");
 		loanInformation1.setLoanAmount(1234568);
 		loanInformation1.setLoanNumber("ABC123");
@@ -80,9 +80,9 @@ public class SearchuserloaninfoServiceTests {
 	@Test
 	public void searchByFirstLoanNumTest() throws LoanInformationNotFoundException {
 		
-		List<LoanInformationRequest> list= new ArrayList<>();
+		List<LoanInformation> list= new ArrayList<>();
 		
-		LoanInformationRequest loanInformation = new LoanInformationRequest();
+		LoanInformation loanInformation = new LoanInformation();
 		loanInformation.setLoanUserEmail("abc@gmail.com");
 		loanInformation.setLoanAmount(1234568);
 		loanInformation.setLoanNumber("ABC12345");
@@ -91,7 +91,7 @@ public class SearchuserloaninfoServiceTests {
 		loanInformation.setLoanMgtFees(7895);
 		loanInformation.setOriginationAccount("ACB123476");
 		
-		LoanInformationRequest loanInformation1 = new LoanInformationRequest();
+		LoanInformation loanInformation1 = new LoanInformation();
 		loanInformation1.setLoanUserEmail("abc@gmail.com");
 		loanInformation1.setLoanAmount(1234568);
 		loanInformation1.setLoanNumber("ABC123");
@@ -102,7 +102,7 @@ public class SearchuserloaninfoServiceTests {
 		list.add(loanInformation);
 		list.add(loanInformation1);
 		
-		LoanUserRequest addUserRequest= new LoanUserRequest();
+		LoanUser addUserRequest= new LoanUser();
 		addUserRequest.setUserFirstname("user2");
 		addUserRequest.setUserLastname("user2");
 		addUserRequest.setUserEmail("abc@gmail.com");
@@ -125,9 +125,9 @@ public class SearchuserloaninfoServiceTests {
 	
 	@Test
 	public void searchByLastLoanNumIncorrectTest() {
-	List<LoanInformationRequest> list= new ArrayList<>();
+	List<LoanInformation> list= new ArrayList<>();
 		
-		LoanInformationRequest loanInformation = new LoanInformationRequest();
+		LoanInformation loanInformation = new LoanInformation();
 		loanInformation.setLoanUserEmail("abc@gmail.com");
 		loanInformation.setLoanAmount(1234568);
 		loanInformation.setLoanNumber("ABC12345");
@@ -136,7 +136,7 @@ public class SearchuserloaninfoServiceTests {
 		loanInformation.setLoanMgtFees(7895);
 		loanInformation.setOriginationAccount("ACB123476");
 		
-		LoanInformationRequest loanInformation1 = new LoanInformationRequest();
+		LoanInformation loanInformation1 = new LoanInformation();
 		loanInformation1.setLoanUserEmail("abc@gmail.com");
 		loanInformation1.setLoanAmount(1234568);
 		loanInformation1.setLoanNumber("ABC123");
@@ -147,7 +147,7 @@ public class SearchuserloaninfoServiceTests {
 		list.add(loanInformation);
 		list.add(loanInformation1);
 		
-		LoanUserRequest addUserRequest= new LoanUserRequest();
+		LoanUser addUserRequest= new LoanUser();
 		addUserRequest.setUserFirstname("user2");
 		addUserRequest.setUserLastname("user2");
 		Address propertyAddress = new Address();
@@ -170,9 +170,9 @@ public class SearchuserloaninfoServiceTests {
 	
 	@Test
 	public void searchByLastLoanNumTest() throws LoanInformationNotFoundException {
-	List<LoanInformationRequest> list= new ArrayList<>();
+	List<LoanInformation> list= new ArrayList<>();
 		
-		LoanInformationRequest loanInformation = new LoanInformationRequest();
+		LoanInformation loanInformation = new LoanInformation();
 		loanInformation.setLoanUserEmail("abc@gmail.com");
 		loanInformation.setLoanAmount(1234568);
 		loanInformation.setLoanNumber("ABC12345");
@@ -181,7 +181,7 @@ public class SearchuserloaninfoServiceTests {
 		loanInformation.setLoanMgtFees(7895);
 		loanInformation.setOriginationAccount("ACB123476");
 		
-		LoanInformationRequest loanInformation1 = new LoanInformationRequest();
+		LoanInformation loanInformation1 = new LoanInformation();
 		loanInformation1.setLoanUserEmail("abc@gmail.com");
 		loanInformation1.setLoanAmount(1234568);
 		loanInformation1.setLoanNumber("ABC123");
@@ -192,7 +192,7 @@ public class SearchuserloaninfoServiceTests {
 		list.add(loanInformation);
 		list.add(loanInformation1);
 		
-		LoanUserRequest addUserRequest= new LoanUserRequest();
+		LoanUser addUserRequest= new LoanUser();
 		addUserRequest.setUserFirstname("user2");
 		addUserRequest.setUserLastname("user2");
 		addUserRequest.setUserEmail("abc@gmail.com");

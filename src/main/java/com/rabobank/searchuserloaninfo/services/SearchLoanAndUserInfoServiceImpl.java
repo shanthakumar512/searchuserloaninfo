@@ -14,8 +14,8 @@ import org.springframework.stereotype.Service;
 import com.rabobank.searchuserloaninfo.controller.LoanInformationServiceClient;
 import com.rabobank.searchuserloaninfo.controller.UserInfromationServiceClient;
 import com.rabobank.searchuserloaninfo.exceptions.LoanInformationNotFoundException;
-import com.rabobank.searchuserloaninfo.request.LoanInformationRequest;
-import com.rabobank.searchuserloaninfo.request.LoanUserRequest;
+import com.rabobank.searchuserloaninfo.request.LoanInformation;
+import com.rabobank.searchuserloaninfo.request.LoanUser;
 
 /**
  * @author Admin
@@ -33,9 +33,9 @@ public class SearchLoanAndUserInfoServiceImpl implements SearchLoanAndUserInfoSe
 	private static final Logger logger = LoggerFactory.getLogger(SearchLoanAndUserInfoServiceImpl.class);
 	
 	@Override
-	public List<LoanInformationRequest> searchLoanInformationWithLoanNUmber(String loanNum) {
-		LoanInformationRequest response= loanInformationServiceClient.retrieveLoanInfo(loanNum);
-		List<LoanInformationRequest> list= new ArrayList<>();
+	public List<LoanInformation> searchLoanInformationWithLoanNUmber(String loanNum) {
+		LoanInformation response= loanInformationServiceClient.retrieveLoanInfo(loanNum);
+		List<LoanInformation> list= new ArrayList<>();
 		list.add(response);
 		logger.info("Loan details returned with Loan user Email ::{}",response.getLoanUserEmail());
 		return list;
@@ -45,12 +45,12 @@ public class SearchLoanAndUserInfoServiceImpl implements SearchLoanAndUserInfoSe
 	 * @see com.rabobank.searchuserloaninfo.services.SearchLoanAndUserInfoService#searchUserEmailByFirstName(java.lang.String)
 	 */
 	@Override
-	public List<LoanInformationRequest> searchUserEmailByFirstName(String userFirstName) throws LoanInformationNotFoundException {
-		LoanUserRequest response = userInfromationServiceClient.retrieveUserInfoByFirstName(userFirstName);
+	public List<LoanInformation> searchUserEmailByFirstName(String userFirstName) throws LoanInformationNotFoundException {
+		LoanUser response = userInfromationServiceClient.retrieveUserInfoByFirstName(userFirstName);
 		
 		if(response.getUserEmail()!=null) {
 			logger.info("Loan User returned with  user Email ::{}",response.getUserEmail());
-			List<LoanInformationRequest> loanresponse= loanInformationServiceClient.retrieveLoanInfoByEmail(response.getUserEmail());
+			List<LoanInformation> loanresponse= loanInformationServiceClient.retrieveLoanInfoByEmail(response.getUserEmail());
 			logger.info("Size of Loan details returned with Loan user Email ::{}",loanresponse.size());
 			return loanresponse;
 		} else {
@@ -63,13 +63,13 @@ public class SearchLoanAndUserInfoServiceImpl implements SearchLoanAndUserInfoSe
 	 * @see com.rabobank.searchuserloaninfo.services.SearchLoanAndUserInfoService#searchuserEmailByLastName(java.lang.String)
 	 */
 	@Override
-	public List<LoanInformationRequest> searchuserEmailByLastName(String userLastName) throws LoanInformationNotFoundException {
+	public List<LoanInformation> searchuserEmailByLastName(String userLastName) throws LoanInformationNotFoundException {
 
-		LoanUserRequest response = userInfromationServiceClient.retrieveUserInfoByLastName(userLastName);		
+		LoanUser response = userInfromationServiceClient.retrieveUserInfoByLastName(userLastName);		
 		
 		if(response.getUserEmail()!=null) {
 			logger.info("Loan User returned with  user Email ::{}",response.getUserEmail());
-			List<LoanInformationRequest> loanInfoResponse= loanInformationServiceClient.retrieveLoanInfoByEmail(response.getUserEmail());
+			List<LoanInformation> loanInfoResponse= loanInformationServiceClient.retrieveLoanInfoByEmail(response.getUserEmail());
 			logger.info("Size of Loan details returned with Loan user Email ::{}",loanInfoResponse.size());
 			return loanInfoResponse;
 		}  else {

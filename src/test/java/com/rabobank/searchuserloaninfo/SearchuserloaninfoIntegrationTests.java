@@ -16,13 +16,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import static org.mockito.Mockito.*;
 
-import com.rabobank.searchuserloaninfo.request.LoanInformationRequest;
+import com.rabobank.searchuserloaninfo.request.LoanInformation;
 import com.rabobank.searchuserloaninfo.controller.LoanInformationServiceClient;
 import com.rabobank.searchuserloaninfo.controller.UserInfromationServiceClient;
 import com.rabobank.searchuserloaninfo.request.SearchLoanRequest;
 import com.rabobank.searchuserloaninfo.services.SearchLoanAndUserInfoServiceImpl;
 import com.rabobank.searchuserloaninfo.request.Address;
-import com.rabobank.searchuserloaninfo.request.LoanUserRequest;
+import com.rabobank.searchuserloaninfo.request.LoanUser;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {SearchuserloaninfoApplication.class},
@@ -31,6 +31,20 @@ webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class SearchuserloaninfoIntegrationTests {
 	
 	
+	private static final String PATH = "/searchinfo/loanInformation";
+
+	private static final String EMAIL = "abc@gmail.com";
+
+	private static final String USER2 = "user2";
+
+	private static final String LOANNUMBER2 = "ABC123";
+
+	private static final String ORIGIN_ACCOUNT = "ACB123476";
+
+	private static final String LOAN_STATUS = "ACTIVE";
+
+	private static final String LOANNUM = "ABC12345";
+
 	@MockBean()
 	LoanInformationServiceClient loanInformationServiceClient;
 
@@ -54,67 +68,67 @@ public class SearchuserloaninfoIntegrationTests {
 	@Test
 	public void searchByLoanNumTest() {
 		
-		List<LoanInformationRequest> list= new ArrayList<>();
+		List<LoanInformation> list= new ArrayList<>();
 		
-		LoanInformationRequest loanInformation = new LoanInformationRequest();
+		LoanInformation loanInformation = new LoanInformation();
 		loanInformation.setLoanUserEmail("abc@gmail.c");
 		loanInformation.setLoanAmount(1234568);
-		loanInformation.setLoanNumber("ABC12345");
+		loanInformation.setLoanNumber(LOANNUM);
 		loanInformation.setLoanTerm(45);
-		loanInformation.setLoanStatus("ACTIVE");
+		loanInformation.setLoanStatus(LOAN_STATUS);
 		loanInformation.setLoanMgtFees(7895);
-		loanInformation.setOriginationAccount("ACB123476");
+		loanInformation.setOriginationAccount(ORIGIN_ACCOUNT);
 		
-		LoanInformationRequest loanInformation1 = new LoanInformationRequest();
+		LoanInformation loanInformation1 = new LoanInformation();
 		loanInformation1.setLoanUserEmail("abc@gmail.c");
 		loanInformation1.setLoanAmount(1234568);
-		loanInformation1.setLoanNumber("ABC123");
+		loanInformation1.setLoanNumber(LOANNUMBER2);
 		loanInformation1.setLoanTerm(45);
-		loanInformation1.setLoanStatus("ACTIVE");
+		loanInformation1.setLoanStatus(LOAN_STATUS);
 		loanInformation1.setLoanMgtFees(7895);
-		loanInformation1.setOriginationAccount("ACB123476");
+		loanInformation1.setOriginationAccount(ORIGIN_ACCOUNT);
 		list.add(loanInformation);
 		list.add(loanInformation1);
 
 		
-		when(loanInformationServiceClient.retrieveLoanInfo("ABC12345")).thenReturn(loanInformation);
+		when(loanInformationServiceClient.retrieveLoanInfo(LOANNUM)).thenReturn(loanInformation);
 		
 		SearchLoanRequest searchLoanRequest= new SearchLoanRequest();
-		searchLoanRequest.setLoanNumber("ABC12345");
+		searchLoanRequest.setLoanNumber(LOANNUM);
 		
-		ResponseEntity<LoanInformationRequest[]> updatedEmployee = restTemplate.postForEntity(getRootUrl() + "/searchinfo/loanInformation", searchLoanRequest, LoanInformationRequest[].class);
+		ResponseEntity<LoanInformation[]> updatedEmployee = restTemplate.postForEntity(getRootUrl() + PATH, searchLoanRequest, LoanInformation[].class);
 		assertNotNull(updatedEmployee.getBody());
 	}
 	
 	@Test
 	public void searchByFirstLoanNumTest() {
 		
-		List<LoanInformationRequest> list= new ArrayList<>();
+		List<LoanInformation> list= new ArrayList<>();
 		
-		LoanInformationRequest loanInformation = new LoanInformationRequest();
-		loanInformation.setLoanUserEmail("abc@gmail.com");
+		LoanInformation loanInformation = new LoanInformation();
+		loanInformation.setLoanUserEmail(EMAIL);
 		loanInformation.setLoanAmount(1234568);
-		loanInformation.setLoanNumber("ABC12345");
+		loanInformation.setLoanNumber(LOANNUM);
 		loanInformation.setLoanTerm(45);
-		loanInformation.setLoanStatus("ACTIVE");
+		loanInformation.setLoanStatus(LOAN_STATUS);
 		loanInformation.setLoanMgtFees(7895);
-		loanInformation.setOriginationAccount("ACB123476");
+		loanInformation.setOriginationAccount(ORIGIN_ACCOUNT);
 		
-		LoanInformationRequest loanInformation1 = new LoanInformationRequest();
-		loanInformation1.setLoanUserEmail("abc@gmail.com");
+		LoanInformation loanInformation1 = new LoanInformation();
+		loanInformation1.setLoanUserEmail(EMAIL);
 		loanInformation1.setLoanAmount(1234568);
-		loanInformation1.setLoanNumber("ABC123");
+		loanInformation1.setLoanNumber(LOANNUMBER2);
 		loanInformation1.setLoanTerm(45);
-		loanInformation1.setLoanStatus("ACTIVE");
+		loanInformation1.setLoanStatus(LOAN_STATUS);
 		loanInformation1.setLoanMgtFees(7895);
-		loanInformation1.setOriginationAccount("ACB123476");
+		loanInformation1.setOriginationAccount(ORIGIN_ACCOUNT);
 		list.add(loanInformation);
 		list.add(loanInformation1);
 		
-		LoanUserRequest addUserRequest= new LoanUserRequest();
-		addUserRequest.setUserFirstname("user2");
-		addUserRequest.setUserLastname("user2");
-		addUserRequest.setUserEmail("abc@gmail.com");
+		LoanUser addUserRequest= new LoanUser();
+		addUserRequest.setUserFirstname(USER2);
+		addUserRequest.setUserLastname(USER2);
+		addUserRequest.setUserEmail(EMAIL);
 		Address propertyAddress = new Address();
 		propertyAddress.setAddressLine1("a1");
 		propertyAddress.setAddressLine2("a2");
@@ -124,44 +138,44 @@ public class SearchuserloaninfoIntegrationTests {
 		propertyAddress.setCountry("Ind");
 		addUserRequest.setPropertyAddress(propertyAddress);
 		
-		when(userInfromationServiceClient.retrieveUserInfoByFirstName("user2")).thenReturn(addUserRequest);
-		when(loanInformationServiceClient.retrieveLoanInfoByEmail("abc@gmail.com")).thenReturn(list);
+		when(userInfromationServiceClient.retrieveUserInfoByFirstName(USER2)).thenReturn(addUserRequest);
+		when(loanInformationServiceClient.retrieveLoanInfoByEmail(EMAIL)).thenReturn(list);
 		
 		SearchLoanRequest searchLoanRequest= new SearchLoanRequest();
-		searchLoanRequest.setUserFirstname("user2");
+		searchLoanRequest.setUserFirstname(USER2);
 		
-		ResponseEntity<LoanInformationRequest[]> updatedEmployee = restTemplate.postForEntity(getRootUrl() + "/searchinfo/loanInformation", searchLoanRequest, LoanInformationRequest[].class);
+		ResponseEntity<LoanInformation[]> updatedEmployee = restTemplate.postForEntity(getRootUrl() + PATH, searchLoanRequest, LoanInformation[].class);
 		assertNotNull(updatedEmployee.getBody());
 	}
 	
 	@Test
 	public void searchByLastLoanNumTest() {
-	List<LoanInformationRequest> list= new ArrayList<>();
+	List<LoanInformation> list= new ArrayList<>();
 		
-		LoanInformationRequest loanInformation = new LoanInformationRequest();
-		loanInformation.setLoanUserEmail("abc@gmail.com");
+		LoanInformation loanInformation = new LoanInformation();
+		loanInformation.setLoanUserEmail(EMAIL);
 		loanInformation.setLoanAmount(1234568);
-		loanInformation.setLoanNumber("ABC12345");
+		loanInformation.setLoanNumber(LOANNUM);
 		loanInformation.setLoanTerm(45);
-		loanInformation.setLoanStatus("ACTIVE");
+		loanInformation.setLoanStatus(LOAN_STATUS);
 		loanInformation.setLoanMgtFees(7895);
-		loanInformation.setOriginationAccount("ACB123476");
+		loanInformation.setOriginationAccount(ORIGIN_ACCOUNT);
 		
-		LoanInformationRequest loanInformation1 = new LoanInformationRequest();
-		loanInformation1.setLoanUserEmail("abc@gmail.com");
+		LoanInformation loanInformation1 = new LoanInformation();
+		loanInformation1.setLoanUserEmail(EMAIL);
 		loanInformation1.setLoanAmount(1234568);
-		loanInformation1.setLoanNumber("ABC123");
+		loanInformation1.setLoanNumber(LOANNUMBER2);
 		loanInformation1.setLoanTerm(45);
-		loanInformation1.setLoanStatus("ACTIVE");
+		loanInformation1.setLoanStatus(LOAN_STATUS);
 		loanInformation1.setLoanMgtFees(7895);
-		loanInformation1.setOriginationAccount("ACB123476");
+		loanInformation1.setOriginationAccount(ORIGIN_ACCOUNT);
 		list.add(loanInformation);
 		list.add(loanInformation1);
 		
-		LoanUserRequest addUserRequest= new LoanUserRequest();
-		addUserRequest.setUserFirstname("user2");
-		addUserRequest.setUserLastname("user2");
-		addUserRequest.setUserEmail("abc@gmail.com");
+		LoanUser addUserRequest= new LoanUser();
+		addUserRequest.setUserFirstname(USER2);
+		addUserRequest.setUserLastname(USER2);
+		addUserRequest.setUserEmail(EMAIL);
 		Address propertyAddress = new Address();
 		propertyAddress.setAddressLine1("a1");
 		propertyAddress.setAddressLine2("a2");
@@ -171,13 +185,13 @@ public class SearchuserloaninfoIntegrationTests {
 		propertyAddress.setCountry("Ind");
 		addUserRequest.setPropertyAddress(propertyAddress);
 		
-		when(userInfromationServiceClient.retrieveUserInfoByLastName("user2")).thenReturn(addUserRequest);
-		when(loanInformationServiceClient.retrieveLoanInfoByEmail("abc@gmail.com")).thenReturn(list);
+		when(userInfromationServiceClient.retrieveUserInfoByLastName(USER2)).thenReturn(addUserRequest);
+		when(loanInformationServiceClient.retrieveLoanInfoByEmail(EMAIL)).thenReturn(list);
 		
 		SearchLoanRequest searchLoanRequest= new SearchLoanRequest();
-		searchLoanRequest.setUserLastname("user2");
+		searchLoanRequest.setUserLastname(USER2);
 		
-		ResponseEntity<LoanInformationRequest[]> updatedEmployee = restTemplate.postForEntity(getRootUrl() + "/searchinfo/loanInformation", searchLoanRequest, LoanInformationRequest[].class);
+		ResponseEntity<LoanInformation[]> updatedEmployee = restTemplate.postForEntity(getRootUrl() + PATH, searchLoanRequest, LoanInformation[].class);
 		assertNotNull(updatedEmployee.getBody());
 	}
 }

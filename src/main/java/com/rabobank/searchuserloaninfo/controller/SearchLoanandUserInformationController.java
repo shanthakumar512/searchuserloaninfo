@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rabobank.searchuserloaninfo.exceptions.LoanInformationNotFoundException;
-import com.rabobank.searchuserloaninfo.request.LoanInformationRequest;
+import com.rabobank.searchuserloaninfo.request.LoanInformation;
 import com.rabobank.searchuserloaninfo.request.SearchLoanRequest;
 import com.rabobank.searchuserloaninfo.services.SearchLoanAndUserInfoService;
 
@@ -42,20 +42,20 @@ public ResponseEntity<?> searchLoanInfoByLoanNum(@Valid @RequestBody SearchLoanR
 	
 	if(null != searchLoanRequest.getLoanNumber() && !searchLoanRequest.getLoanNumber().isEmpty()) {
 		logger.info("Entered search with loan Number block Loan NUmber ::{}",searchLoanRequest.getLoanNumber());
-		List<LoanInformationRequest> list= searchLoanAndUserInfoService.searchLoanInformationWithLoanNUmber(searchLoanRequest.getLoanNumber());
+		List<LoanInformation> list= searchLoanAndUserInfoService.searchLoanInformationWithLoanNUmber(searchLoanRequest.getLoanNumber());
 		return new ResponseEntity<> (list, HttpStatus.OK);
 	}
 	
 	if(null != searchLoanRequest.getUserFirstname() && !searchLoanRequest.getUserFirstname().isEmpty()) {
 		logger.info("Entered search with loan user First Name block  ::{}",searchLoanRequest.getUserFirstname());
-		List<LoanInformationRequest> loanInfoList =	searchLoanAndUserInfoService.searchUserEmailByFirstName(searchLoanRequest.getUserFirstname());
+		List<LoanInformation> loanInfoList =	searchLoanAndUserInfoService.searchUserEmailByFirstName(searchLoanRequest.getUserFirstname());
 		return new ResponseEntity<> (loanInfoList, HttpStatus.OK);
 		
 	}
 	
 	if(null != searchLoanRequest.getUserLastname() && !searchLoanRequest.getUserLastname().isEmpty()) {
 		logger.info("Entered search with loan user Last Name block  ::{}",searchLoanRequest.getUserLastname());
-		List<LoanInformationRequest> loanInfoList =	searchLoanAndUserInfoService.searchuserEmailByLastName(searchLoanRequest.getUserLastname());
+		List<LoanInformation> loanInfoList =	searchLoanAndUserInfoService.searchuserEmailByLastName(searchLoanRequest.getUserLastname());
 		return new ResponseEntity<> (loanInfoList, HttpStatus.OK);
 	}
 	

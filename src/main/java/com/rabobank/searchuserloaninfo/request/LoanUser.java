@@ -4,7 +4,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 
-public class LoanUserRequest {
+public class LoanUser {
 	@NotBlank
 	private String userFirstname;
 	

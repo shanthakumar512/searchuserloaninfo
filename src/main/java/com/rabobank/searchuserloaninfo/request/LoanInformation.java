@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
  *
  */
 
-public class LoanInformationRequest {
+public class LoanInformation {
 	
 	@NotBlank
 	@Size(max = 50)
