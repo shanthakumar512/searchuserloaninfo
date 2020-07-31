@@ -9,7 +9,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableFeignClients("com.rabobank.searchuserloaninfo.controller")
+@EnableFeignClients("com.rabobank.searchuserloaninfo.*")
 @EnableSwagger2
 public class SearchuserloaninfoApplication {
 

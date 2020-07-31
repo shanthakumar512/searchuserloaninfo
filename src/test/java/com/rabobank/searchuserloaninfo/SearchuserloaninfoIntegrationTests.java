@@ -1,36 +1,40 @@
 package com.rabobank.searchuserloaninfo;
 
-import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityAutoConfiguration;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestClientException;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 import com.rabobank.searchuserloaninfo.request.LoanInformation;
 import com.rabobank.searchuserloaninfo.controller.LoanInformationServiceClient;
 import com.rabobank.searchuserloaninfo.controller.UserInfromationServiceClient;
+import com.rabobank.searchuserloaninfo.exceptions.LoanInformationNotFoundException;
 import com.rabobank.searchuserloaninfo.request.SearchLoanRequest;
 import com.rabobank.searchuserloaninfo.services.SearchLoanAndUserInfoServiceImpl;
 import com.rabobank.searchuserloaninfo.request.Address;
 import com.rabobank.searchuserloaninfo.request.LoanUser;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = {SearchuserloaninfoApplication.class},
-webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-
+@SpringBootTest(classes = {SearchuserloaninfoApplication.class},webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@EnableAutoConfiguration(exclude = { SecurityAutoConfiguration.class, ManagementWebSecurityAutoConfiguration.class })
 public class SearchuserloaninfoIntegrationTests {
 	
 	
@@ -152,7 +156,7 @@ public class SearchuserloaninfoIntegrationTests {
 	}
 	
 	 @Test
-	public void searchByLastLoanNumTest() {
+	public void searchByLastLoanNumTest() throws LoanInformationNotFoundException {
 	List<LoanInformation> list= new ArrayList<>();
 		
 		LoanInformation loanInformation = new LoanInformation();
@@ -187,7 +191,6 @@ public class SearchuserloaninfoIntegrationTests {
 		propertyAddress.setState("TN");
 		propertyAddress.setCountry("Ind");
 		addUserRequest.setPropertyAddress(propertyAddress);
-		
 		when(userInfromationServiceClient.retrieveUserInfoByLastName(USER2)).thenReturn(addUserRequest);
 		when(loanInformationServiceClient.retrieveLoanInfoByEmail(EMAIL)).thenReturn(list);
 		

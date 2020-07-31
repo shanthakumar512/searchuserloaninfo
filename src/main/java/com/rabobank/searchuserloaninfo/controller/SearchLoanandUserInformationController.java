@@ -36,7 +36,6 @@ private static final Logger logger = LoggerFactory.getLogger(SearchLoanandUserIn
 SearchLoanAndUserInfoService searchLoanAndUserInfoService;
 	
 @PostMapping("/loanInformation")
-@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 public ResponseEntity<?> searchLoanInfoByLoanNum(@Valid @RequestBody SearchLoanRequest searchLoanRequest) throws LoanInformationNotFoundException {
 	logger.info("Entered searchLoanInfoByLoanNum() method");
 	

@@ -5,10 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityAutoConfiguration;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -23,10 +26,9 @@ import com.rabobank.searchuserloaninfo.services.SearchLoanAndUserInfoServiceImpl
 import com.rabobank.searchuserloaninfo.request.Address;
 import com.rabobank.searchuserloaninfo.request.LoanUser;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = {SearchuserloaninfoApplication.class},
 webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-
+@EnableAutoConfiguration(exclude = { SecurityAutoConfiguration.class, ManagementWebSecurityAutoConfiguration.class })
 public class SearchuserloaninfoServiceTests {
 	
 	
