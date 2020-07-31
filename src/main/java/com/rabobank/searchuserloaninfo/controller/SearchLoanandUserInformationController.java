@@ -44,16 +44,16 @@ public ResponseEntity<?> searchLoanInfoByLoanNum(@Valid @RequestBody SearchLoanR
 		logger.info("Entered search with loan Number block Loan NUmber ::{}",searchLoanRequest.getLoanNumber());
 		List<LoanInformation> list= searchLoanAndUserInfoService.searchLoanInformationWithLoanNUmber(searchLoanRequest.getLoanNumber());
 		return new ResponseEntity<> (list, HttpStatus.OK);
-	}
+	} 
 	
-	if(null != searchLoanRequest.getUserFirstname() && !searchLoanRequest.getUserFirstname().isEmpty()) {
+	else if(null != searchLoanRequest.getUserFirstname() && !searchLoanRequest.getUserFirstname().isEmpty()) {
 		logger.info("Entered search with loan user First Name block  ::{}",searchLoanRequest.getUserFirstname());
 		List<LoanInformation> loanInfoList =	searchLoanAndUserInfoService.searchUserEmailByFirstName(searchLoanRequest.getUserFirstname());
 		return new ResponseEntity<> (loanInfoList, HttpStatus.OK);
 		
 	}
 	
-	if(null != searchLoanRequest.getUserLastname() && !searchLoanRequest.getUserLastname().isEmpty()) {
+	else if(null != searchLoanRequest.getUserLastname() && !searchLoanRequest.getUserLastname().isEmpty()) {
 		logger.info("Entered search with loan user Last Name block  ::{}",searchLoanRequest.getUserLastname());
 		List<LoanInformation> loanInfoList =	searchLoanAndUserInfoService.searchuserEmailByLastName(searchLoanRequest.getUserLastname());
 		return new ResponseEntity<> (loanInfoList, HttpStatus.OK);

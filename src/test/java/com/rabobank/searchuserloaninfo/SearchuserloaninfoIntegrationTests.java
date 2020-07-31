@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,6 +15,8 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.client.RestClientException;
+
 import static org.mockito.Mockito.*;
 
 import com.rabobank.searchuserloaninfo.request.LoanInformation;
@@ -148,7 +151,7 @@ public class SearchuserloaninfoIntegrationTests {
 		assertNotNull(updatedEmployee.getBody());
 	}
 	
-	@Test
+	 @Test
 	public void searchByLastLoanNumTest() {
 	List<LoanInformation> list= new ArrayList<>();
 		
@@ -194,4 +197,57 @@ public class SearchuserloaninfoIntegrationTests {
 		ResponseEntity<LoanInformation[]> updatedEmployee = restTemplate.postForEntity(getRootUrl() + PATH, searchLoanRequest, LoanInformation[].class);
 		assertNotNull(updatedEmployee.getBody());
 	}
+	 
+	 @Test
+	 public void searchByLastLoanNumTestControllerAdvice() {
+			List<LoanInformation> list= new ArrayList<>();
+				
+				LoanInformation loanInformation = new LoanInformation();
+				loanInformation.setLoanUserEmail(EMAIL);
+				loanInformation.setLoanAmount(1234568);
+				loanInformation.setLoanNumber(LOANNUM);
+				loanInformation.setLoanTerm(45);
+				loanInformation.setLoanStatus(LOAN_STATUS);
+				loanInformation.setLoanMgtFees(7895);
+				loanInformation.setOriginationAccount(ORIGIN_ACCOUNT);
+				
+				LoanInformation loanInformation1 = new LoanInformation();
+				loanInformation1.setLoanUserEmail(EMAIL);
+				loanInformation1.setLoanAmount(1234568);
+				loanInformation1.setLoanNumber(LOANNUMBER2);
+				loanInformation1.setLoanTerm(45);
+				loanInformation1.setLoanStatus(LOAN_STATUS);
+				loanInformation1.setLoanMgtFees(7895);
+				loanInformation1.setOriginationAccount(ORIGIN_ACCOUNT);
+				list.add(loanInformation);
+				list.add(loanInformation1);
+				
+				LoanUser addUserRequest= new LoanUser();
+				addUserRequest.setUserFirstname(USER2);
+				addUserRequest.setUserLastname(USER2);
+				Address propertyAddress = new Address();
+				propertyAddress.setAddressLine1("a1");
+				propertyAddress.setAddressLine2("a2");
+				propertyAddress.setAddressLine3("a3");
+				propertyAddress.setCity("city");
+				propertyAddress.setState("TN");
+				propertyAddress.setCountry("Ind");
+				addUserRequest.setPropertyAddress(propertyAddress);
+				
+				when(userInfromationServiceClient.retrieveUserInfoByLastName(USER2)).thenReturn(addUserRequest);
+				when(loanInformationServiceClient.retrieveLoanInfoByEmail(EMAIL)).thenReturn(list);
+				
+				SearchLoanRequest searchLoanRequest= new SearchLoanRequest();
+				searchLoanRequest.setUserLastname(USER2);
+				Assertions.assertThrows(RestClientException.class,()-> restTemplate.postForEntity(getRootUrl() + PATH, searchLoanRequest, LoanInformation[].class));
+			}
+	 
+	 		@Test
+	 		public void testURINotFoundException() {
+	 			SearchLoanRequest searchLoanRequest= new SearchLoanRequest();
+				searchLoanRequest.setUserLastname(USER2);
+				Assertions.assertThrows(RestClientException.class,()-> restTemplate.postForEntity(getRootUrl() + "/search/", searchLoanRequest, LoanInformation[].class));		
+	 			
+	 		}
+
 }

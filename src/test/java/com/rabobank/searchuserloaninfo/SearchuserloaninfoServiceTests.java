@@ -124,7 +124,7 @@ public class SearchuserloaninfoServiceTests {
 	}
 	
 	@Test
-	public void searchByLastLoanNumIncorrectTest() {
+	public void searchByLastLoanNumIncorrectTest() throws LoanInformationNotFoundException {
 	List<LoanInformation> list= new ArrayList<>();
 		
 		LoanInformation loanInformation = new LoanInformation();
@@ -162,7 +162,7 @@ public class SearchuserloaninfoServiceTests {
 		when(userInfromationServiceClient.retrieveUserInfoByLastName("user2")).thenReturn(addUserRequest);
 		when(userInfromationServiceClient.retrieveUserInfoByFirstName("user2")).thenReturn(addUserRequest);
 		when(loanInformationServiceClient.retrieveLoanInfoByEmail("abc@gmail.com")).thenReturn(list);
-
+//		searchLoanAndUserInfoService.searchuserEmailByLastName("user2");
 		
 		Assertions.assertThrows(LoanInformationNotFoundException.class,()->searchLoanAndUserInfoService.searchuserEmailByLastName("user2"));
 		Assertions.assertThrows(LoanInformationNotFoundException.class,()->searchLoanAndUserInfoService.searchUserEmailByFirstName("user2"));		
