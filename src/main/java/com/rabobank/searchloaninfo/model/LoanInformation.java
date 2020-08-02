@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.rabobank.searchuserloaninfo.request;
+package com.rabobank.searchloaninfo.model;
 
 import java.util.Date;
 

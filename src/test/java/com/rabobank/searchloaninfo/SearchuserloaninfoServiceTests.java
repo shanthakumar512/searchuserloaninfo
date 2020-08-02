@@ -1,4 +1,4 @@
-package com.rabobank.searchuserloaninfo;
+package com.rabobank.searchloaninfo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -11,22 +11,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityAutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.test.context.junit4.SpringRunner;
+
+import com.rabobank.searchloaninfo.SearchLoanInformationApplication;
+import com.rabobank.searchloaninfo.controller.BorrowerInfromationServiceClient;
+import com.rabobank.searchloaninfo.controller.LoanInformationServiceClient;
+import com.rabobank.searchloaninfo.exceptions.LoanInformationNotFoundException;
+import com.rabobank.searchloaninfo.model.Address;
+import com.rabobank.searchloaninfo.model.Borrower;
+import com.rabobank.searchloaninfo.model.LoanInformation;
+import com.rabobank.searchloaninfo.services.SearchLoanAndBorrowerInfoServiceImpl;
+
 import static org.mockito.Mockito.*;
 
-import com.rabobank.searchuserloaninfo.request.LoanInformation;
-import com.rabobank.searchuserloaninfo.controller.LoanInformationServiceClient;
-import com.rabobank.searchuserloaninfo.controller.UserInfromationServiceClient;
-import com.rabobank.searchuserloaninfo.exceptions.LoanInformationNotFoundException;
-import com.rabobank.searchuserloaninfo.services.SearchLoanAndUserInfoServiceImpl;
-import com.rabobank.searchuserloaninfo.request.Address;
-import com.rabobank.searchuserloaninfo.request.LoanUser;
-
-@SpringBootTest(classes = {SearchuserloaninfoApplication.class},
+@SpringBootTest(classes = {SearchLoanInformationApplication.class},
 webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @EnableAutoConfiguration(exclude = { SecurityAutoConfiguration.class, ManagementWebSecurityAutoConfiguration.class })
 public class SearchuserloaninfoServiceTests {
@@ -37,10 +37,10 @@ public class SearchuserloaninfoServiceTests {
 	LoanInformationServiceClient loanInformationServiceClient;
 
 	@MockBean()
-	UserInfromationServiceClient userInfromationServiceClient;
+	BorrowerInfromationServiceClient borrowerInfromationServiceClient;
 	
 	@Autowired
-	SearchLoanAndUserInfoServiceImpl searchLoanAndUserInfoService;
+	SearchLoanAndBorrowerInfoServiceImpl searchLoanAndUserInfoService;
 	
 	@LocalServerPort
 	private int port;
@@ -104,10 +104,10 @@ public class SearchuserloaninfoServiceTests {
 		list.add(loanInformation);
 		list.add(loanInformation1);
 		
-		LoanUser addUserRequest= new LoanUser();
-		addUserRequest.setUserFirstname("user2");
-		addUserRequest.setUserLastname("user2");
-		addUserRequest.setUserEmail("abc@gmail.com");
+		Borrower addUserRequest= new Borrower();
+		addUserRequest.setBorrowerFirstname("user2");
+		addUserRequest.setBorrowerLastname("user2");
+		addUserRequest.setBorrowerEmail("abc@gmail.com");
 		Address propertyAddress = new Address();
 		propertyAddress.setAddressLine1("a1");
 		propertyAddress.setAddressLine2("a2");
@@ -117,10 +117,10 @@ public class SearchuserloaninfoServiceTests {
 		propertyAddress.setCountry("Ind");
 		addUserRequest.setPropertyAddress(propertyAddress);
 		
-		when(userInfromationServiceClient.retrieveUserInfoByFirstName("user2")).thenReturn(addUserRequest);
+		when(borrowerInfromationServiceClient.retrieveBorrowerInfoByFirstName("user2")).thenReturn(addUserRequest);
 		when(loanInformationServiceClient.retrieveLoanInfoByEmail("abc@gmail.com")).thenReturn(list);
 		
-		list= searchLoanAndUserInfoService.searchUserEmailByFirstName("user2");
+		list= searchLoanAndUserInfoService.searchBorrowerEmailByFirstName("user2");
 		assertEquals(2, list.size());
 		
 	}
@@ -149,9 +149,9 @@ public class SearchuserloaninfoServiceTests {
 		list.add(loanInformation);
 		list.add(loanInformation1);
 		
-		LoanUser addUserRequest= new LoanUser();
-		addUserRequest.setUserFirstname("user2");
-		addUserRequest.setUserLastname("user2");
+		Borrower addUserRequest= new Borrower();
+		addUserRequest.setBorrowerFirstname("user2");
+		addUserRequest.setBorrowerLastname("user2");
 		Address propertyAddress = new Address();
 		propertyAddress.setAddressLine1("a1");
 		propertyAddress.setAddressLine2("a2");
@@ -161,13 +161,13 @@ public class SearchuserloaninfoServiceTests {
 		propertyAddress.setCountry("Ind");
 		addUserRequest.setPropertyAddress(propertyAddress);
 		
-		when(userInfromationServiceClient.retrieveUserInfoByLastName("user2")).thenReturn(addUserRequest);
-		when(userInfromationServiceClient.retrieveUserInfoByFirstName("user2")).thenReturn(addUserRequest);
+		when(borrowerInfromationServiceClient.retrieveBorrowerInfoByLastName("user2")).thenReturn(addUserRequest);
+		when(borrowerInfromationServiceClient.retrieveBorrowerInfoByFirstName("user2")).thenReturn(addUserRequest);
 		when(loanInformationServiceClient.retrieveLoanInfoByEmail("abc@gmail.com")).thenReturn(list);
-//		searchLoanAndUserInfoService.searchuserEmailByLastName("user2");
+//		searchLoanAndBorrowerInfoService.searchuserEmailByLastName("user2");
 		
-		Assertions.assertThrows(LoanInformationNotFoundException.class,()->searchLoanAndUserInfoService.searchuserEmailByLastName("user2"));
-		Assertions.assertThrows(LoanInformationNotFoundException.class,()->searchLoanAndUserInfoService.searchUserEmailByFirstName("user2"));		
+		Assertions.assertThrows(LoanInformationNotFoundException.class,()->searchLoanAndUserInfoService.searchBorrowerEmailByLastName("user2"));
+		Assertions.assertThrows(LoanInformationNotFoundException.class,()->searchLoanAndUserInfoService.searchBorrowerEmailByFirstName("user2"));		
 	}
 	
 	@Test
@@ -194,10 +194,10 @@ public class SearchuserloaninfoServiceTests {
 		list.add(loanInformation);
 		list.add(loanInformation1);
 		
-		LoanUser addUserRequest= new LoanUser();
-		addUserRequest.setUserFirstname("user2");
-		addUserRequest.setUserLastname("user2");
-		addUserRequest.setUserEmail("abc@gmail.com");
+		Borrower addUserRequest= new Borrower();
+		addUserRequest.setBorrowerFirstname("user2");
+		addUserRequest.setBorrowerLastname("user2");
+		addUserRequest.setBorrowerEmail("abc@gmail.com");
 		Address propertyAddress = new Address();
 		propertyAddress.setAddressLine1("a1");
 		propertyAddress.setAddressLine2("a2");
@@ -207,10 +207,10 @@ public class SearchuserloaninfoServiceTests {
 		propertyAddress.setCountry("Ind");
 		addUserRequest.setPropertyAddress(propertyAddress);
 		
-		when(userInfromationServiceClient.retrieveUserInfoByLastName("user2")).thenReturn(addUserRequest);
+		when(borrowerInfromationServiceClient.retrieveBorrowerInfoByLastName("user2")).thenReturn(addUserRequest);
 		when(loanInformationServiceClient.retrieveLoanInfoByEmail("abc@gmail.com")).thenReturn(list);
 		
-		list= searchLoanAndUserInfoService.searchuserEmailByLastName("user2");
+		list= searchLoanAndUserInfoService.searchBorrowerEmailByLastName("user2");
 	
 		assertEquals(2, list.size());
 	}

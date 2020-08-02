@@ -1,4 +1,4 @@
-package com.rabobank.searchuserloaninfo.controller;
+package com.rabobank.searchloaninfo.controller;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.rabobank.searchuserloaninfo.request.LoanInformation;
+import com.rabobank.searchloaninfo.model.LoanInformation;
 
 @FeignClient(name="loan-information-service")
 public interface LoanInformationServiceClient {

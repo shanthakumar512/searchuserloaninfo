@@ -1,4 +1,4 @@
-package com.rabobank.searchuserloaninfo.exceptions;
+package com.rabobank.searchloaninfo.exceptions;
 
 import java.util.List;
 public class ErrorResponse {

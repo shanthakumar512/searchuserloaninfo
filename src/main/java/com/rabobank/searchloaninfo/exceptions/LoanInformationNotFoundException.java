@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.rabobank.searchuserloaninfo.exceptions;
+package com.rabobank.searchloaninfo.exceptions;
 
 /**
  * @author Admin

@@ -1,4 +1,4 @@
-package com.rabobank.searchuserloaninfo;
+package com.rabobank.searchloaninfo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,12 +9,12 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableFeignClients("com.rabobank.searchuserloaninfo.*")
+@EnableFeignClients("com.rabobank.searchloaninfo.*")
 @EnableSwagger2
-public class SearchuserloaninfoApplication {
+public class SearchLoanInformationApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SearchuserloaninfoApplication.class, args);
+		SpringApplication.run(SearchLoanInformationApplication.class, args);
 	}
 
 }
