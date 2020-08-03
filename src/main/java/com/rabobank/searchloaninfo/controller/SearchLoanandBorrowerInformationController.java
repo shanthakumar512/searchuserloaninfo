@@ -49,7 +49,7 @@ public ResponseEntity<?> searchLoanInfoByLoanNum(@Valid @RequestBody SearchLoanR
 	logger.info("Entered searchLoanInfoByLoanNum() method");
 	
 	if(null != searchLoanRequest.getLoanNumber() && !searchLoanRequest.getLoanNumber().isEmpty()) {
-		logger.info("Entered search with loan Number block Loan NUmber ::{}",searchLoanRequest.getLoanNumber());
+		logger.debug("Entered search with loan Number block Loan NUmber ::{}",searchLoanRequest.getLoanNumber());
 		List<LoanInformation> list= searchLoanAndBorrowerInfoService.searchLoanInformationWithLoanNUmber(searchLoanRequest.getLoanNumber());
 		return new ResponseEntity<> (list, HttpStatus.OK);
 	} 

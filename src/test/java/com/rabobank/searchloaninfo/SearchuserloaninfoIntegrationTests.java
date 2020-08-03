@@ -32,7 +32,7 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest(classes = {SearchLoanInformationApplication.class},webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @EnableAutoConfiguration(exclude = { SecurityAutoConfiguration.class, ManagementWebSecurityAutoConfiguration.class })
-public class SearchuserloaninfoIntegrationTests {
+ class SearchuserloaninfoIntegrationTests {
 	
 	
 	private static final String PATH = "/searchinfo/loanInformation";
@@ -70,7 +70,7 @@ public class SearchuserloaninfoIntegrationTests {
 	
 	
 	@Test
-	public void searchByLoanNumTest() {
+	 void searchByLoanNumTest() {
 		
 		List<LoanInformation> list= new ArrayList<>();
 		
@@ -105,7 +105,7 @@ public class SearchuserloaninfoIntegrationTests {
 	}
 	
 	@Test
-	public void searchByFirstLoanNumTest() {
+	 void searchByFirstLoanNumTest() {
 		
 		List<LoanInformation> list= new ArrayList<>();
 		
@@ -153,7 +153,7 @@ public class SearchuserloaninfoIntegrationTests {
 	}
 	
 	 @Test
-	public void searchByLastLoanNumTest() throws LoanInformationNotFoundException {
+	 void searchByLastLoanNumTest() throws LoanInformationNotFoundException {
 	List<LoanInformation> list= new ArrayList<>();
 		
 		LoanInformation loanInformation = new LoanInformation();
@@ -199,7 +199,7 @@ public class SearchuserloaninfoIntegrationTests {
 	}
 	 
 	 @Test
-	 public void searchByLastLoanNumTestControllerAdvice() {
+	  void searchByLastLoanNumTestControllerAdvice() {
 			List<LoanInformation> list= new ArrayList<>();
 				
 				LoanInformation loanInformation = new LoanInformation();
@@ -239,14 +239,16 @@ public class SearchuserloaninfoIntegrationTests {
 				
 				SearchLoanRequest searchLoanRequest= new SearchLoanRequest();
 				searchLoanRequest.setBorrowerLastname(USER2);
-				Assertions.assertThrows(RestClientException.class,()-> restTemplate.postForEntity(getRootUrl() + PATH, searchLoanRequest, LoanInformation[].class));
+				String URL=getRootUrl() + PATH;
+				Assertions.assertThrows(RestClientException.class,()-> restTemplate.postForEntity(URL, searchLoanRequest, LoanInformation[].class));
 			}
 	 
 	 		@Test
-	 		public void testURINotFoundException() {
+	 		 void testURINotFoundException() {
 	 			SearchLoanRequest searchLoanRequest= new SearchLoanRequest();
 				searchLoanRequest.setBorrowerLastname(USER2);
-				Assertions.assertThrows(RestClientException.class,()-> restTemplate.postForEntity(getRootUrl() + "/search/", searchLoanRequest, LoanInformation[].class));		
+				String URL=getRootUrl() + PATH;
+				Assertions.assertThrows(RestClientException.class,()-> restTemplate.postForEntity(URL, searchLoanRequest, LoanInformation[].class));		
 	 			
 	 		}
 

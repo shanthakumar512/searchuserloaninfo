@@ -29,7 +29,7 @@ import static org.mockito.Mockito.*;
 @SpringBootTest(classes = {SearchLoanInformationApplication.class},
 webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @EnableAutoConfiguration(exclude = { SecurityAutoConfiguration.class, ManagementWebSecurityAutoConfiguration.class })
-public class SearchuserloaninfoServiceTests {
+ class SearchuserloaninfoServiceTests {
 	
 	
 	
@@ -47,7 +47,7 @@ public class SearchuserloaninfoServiceTests {
 	
 	
 	@Test
-	public void searchByLoanNumTest() {
+	 void searchByLoanNumTest() {
 		
 		List<LoanInformation> list= new ArrayList<>();
 		
@@ -75,12 +75,12 @@ public class SearchuserloaninfoServiceTests {
 		
 		list= searchLoanAndUserInfoService.searchLoanInformationWithLoanNUmber("ABC12345");
 		
-		assertEquals(list.size(), 1);
+		assertEquals(1, list.size());
 		
 	}
 	
 	@Test
-	public void searchByFirstLoanNumTest() throws LoanInformationNotFoundException {
+	 void searchByFirstLoanNumTest() throws LoanInformationNotFoundException {
 		
 		List<LoanInformation> list= new ArrayList<>();
 		
@@ -126,7 +126,7 @@ public class SearchuserloaninfoServiceTests {
 	}
 	
 	@Test
-	public void searchByLastLoanNumIncorrectTest() throws LoanInformationNotFoundException {
+	 void searchByLastLoanNumIncorrectTest() throws LoanInformationNotFoundException {
 	List<LoanInformation> list= new ArrayList<>();
 		
 		LoanInformation loanInformation = new LoanInformation();
@@ -171,7 +171,7 @@ public class SearchuserloaninfoServiceTests {
 	}
 	
 	@Test
-	public void searchByLastLoanNumTest() throws LoanInformationNotFoundException {
+	 void searchByLastLoanNumTest() throws LoanInformationNotFoundException {
 	List<LoanInformation> list= new ArrayList<>();
 		
 		LoanInformation loanInformation = new LoanInformation();
