@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.rabobank.searchloaninfo.exceptions.LoanInformationNotFoundException;
 import com.rabobank.searchloaninfo.model.LoanInformation;
@@ -45,7 +46,7 @@ SearchLoanAndBorrowerInfoService searchLoanAndBorrowerInfoService;
             @ApiResponse(code = 403, message = "forbidden!!!"),
             @ApiResponse(code = 404, message = "not found!!!") })	
 @PostMapping("/loanInformation")
-public ResponseEntity<?> searchLoanInfoByLoanNum(@Valid @RequestBody SearchLoanRequest searchLoanRequest) throws LoanInformationNotFoundException {
+public ResponseEntity<List<LoanInformation>> searchLoanInfoByLoanNum(@Valid @RequestBody SearchLoanRequest searchLoanRequest) throws LoanInformationNotFoundException {
 	logger.info("Entered searchLoanInfoByLoanNum() method");
 	
 	if(null != searchLoanRequest.getLoanNumber() && !searchLoanRequest.getLoanNumber().isEmpty()) {
@@ -66,8 +67,7 @@ public ResponseEntity<?> searchLoanInfoByLoanNum(@Valid @RequestBody SearchLoanR
 		List<LoanInformation> loanInfoList =	searchLoanAndBorrowerInfoService.searchBorrowerEmailByLastName(searchLoanRequest.getBorrowerLastname());
 		return new ResponseEntity<> (loanInfoList, HttpStatus.OK);
 	}
-	
-	return  ResponseEntity.badRequest().body("Search failed. Fine tune Search");	
+	else throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 }
 	
 }
