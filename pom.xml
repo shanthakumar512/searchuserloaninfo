@@ -13,6 +13,7 @@
 	<artifactId>searchuserloaninfo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>searchuserloaninfo</name>
+	<packaging>jar</packaging>
 	<description>Project for search loan and user information</description>
 
 	<properties>
