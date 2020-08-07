@@ -49,9 +49,9 @@ public class SearchLoanAndBorrowerInfoServiceImpl implements SearchLoanAndBorrow
 		Borrower response = borrowerInfromationServiceClient.retrieveBorrowerInfoByFirstName(borrowerFirstName);
 		
 		if(response.getBorrowerEmail()!=null) {
-			logger.debug("Borrower Informaton returned with  Borrower Email ::{}",response.getBorrowerEmail());
+			logger.info("Borrower Informaton returned with  Borrower Email ::{}",response.getBorrowerEmail());
 			List<LoanInformation> loanresponse= loanInformationServiceClient.retrieveLoanInfoByEmail(response.getBorrowerEmail());
-			logger.info("Size of Loan details returned with Loan Borrower Email ::{}",loanresponse.size());
+			logger.debug("Size of Loan details returned with Loan Borrower Email ::{}",loanresponse.size());
 			return loanresponse;
 		} else {
 			throw new LoanInformationNotFoundException("Loan Information not found for Email : "+response.getBorrowerEmail()) ;
@@ -68,9 +68,9 @@ public class SearchLoanAndBorrowerInfoServiceImpl implements SearchLoanAndBorrow
 		Borrower response = borrowerInfromationServiceClient.retrieveBorrowerInfoByLastName(borrowerLastName);		
 		
 		if(response.getBorrowerEmail()!=null) {
-			logger.debug("BOrrower information returned with  Borrower Email ::{}",response.getBorrowerEmail());
+			logger.info("BOrrower information returned with  Borrower Email ::{}",response.getBorrowerEmail());
 			List<LoanInformation> loanInfoResponse= loanInformationServiceClient.retrieveLoanInfoByEmail(response.getBorrowerEmail());
-			logger.info("Size of Loan details returned with Borrower Email ::{}",loanInfoResponse.size());
+			logger.debug("Size of Loan details returned with Borrower Email ::{}",loanInfoResponse.size());
 			return loanInfoResponse;
 		}  else {
 			throw new LoanInformationNotFoundException("Loan Information not found for Email : "+response.getBorrowerEmail() ) ;

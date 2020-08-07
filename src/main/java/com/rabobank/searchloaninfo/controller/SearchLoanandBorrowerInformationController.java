@@ -56,14 +56,14 @@ public ResponseEntity<List<LoanInformation>> searchLoanInfoByLoanNum(@Valid @Req
 	} 
 	
 	else if(null != searchLoanRequest.getBorrowerFirstname() && !searchLoanRequest.getBorrowerFirstname().isEmpty()) {
-		logger.info("Entered search with loan user First Name block  ::{}",searchLoanRequest.getBorrowerFirstname());
+		logger.info("Entered search with loan user First Name block");
 		List<LoanInformation> loanInfoList =	searchLoanAndBorrowerInfoService.searchBorrowerEmailByFirstName(searchLoanRequest.getBorrowerFirstname());
 		return new ResponseEntity<> (loanInfoList, HttpStatus.OK);
 		
 	}
 	
 	else if(null != searchLoanRequest.getBorrowerLastname() && !searchLoanRequest.getBorrowerLastname().isEmpty()) {
-		logger.info("Entered search with loan user Last Name block  ::{}",searchLoanRequest.getBorrowerLastname());
+		logger.info("Entered search with loan user Last Name block  ");
 		List<LoanInformation> loanInfoList =	searchLoanAndBorrowerInfoService.searchBorrowerEmailByLastName(searchLoanRequest.getBorrowerLastname());
 		return new ResponseEntity<> (loanInfoList, HttpStatus.OK);
 	}
