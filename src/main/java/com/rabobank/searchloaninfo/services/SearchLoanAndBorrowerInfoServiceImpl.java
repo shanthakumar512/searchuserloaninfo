@@ -49,7 +49,7 @@ public class SearchLoanAndBorrowerInfoServiceImpl implements SearchLoanAndBorrow
 		Borrower response = borrowerInfromationServiceClient.retrieveBorrowerInfoByFirstName(borrowerFirstName);
 		
 		if(response.getBorrowerEmail()!=null) {
-			logger.info("Borrower Informaton returned with  Borrower Email ::{}",response.getBorrowerEmail());
+			logger.info("Borrower Informaton returned with  Borrower Email");
 			List<LoanInformation> loanresponse= loanInformationServiceClient.retrieveLoanInfoByEmail(response.getBorrowerEmail());
 			logger.debug("Size of Loan details returned with Loan Borrower Email ::{}",loanresponse.size());
 			return loanresponse;
@@ -68,7 +68,7 @@ public class SearchLoanAndBorrowerInfoServiceImpl implements SearchLoanAndBorrow
 		Borrower response = borrowerInfromationServiceClient.retrieveBorrowerInfoByLastName(borrowerLastName);		
 		
 		if(response.getBorrowerEmail()!=null) {
-			logger.info("BOrrower information returned with  Borrower Email ::{}",response.getBorrowerEmail());
+			logger.info("Borrower information returned with  Borrower Email");
 			List<LoanInformation> loanInfoResponse= loanInformationServiceClient.retrieveLoanInfoByEmail(response.getBorrowerEmail());
 			logger.debug("Size of Loan details returned with Borrower Email ::{}",loanInfoResponse.size());
 			return loanInfoResponse;
